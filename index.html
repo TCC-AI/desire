@@ -5,7 +5,224 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>慾望管理大師</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --primary-color: #1a73e8;
+            --primary-light: #4285f4;
+            --primary-dark: #0d47a1;
+            --text-color: #202124;
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #e8f0fe, #c2e0ff);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-color);
+            padding: 20px;
+            animation: gradientBackground 15s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        @keyframes gradientBackground {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .app-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1), 
+                        0 1px 8px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(0);
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 
+                        0 5px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            padding: 30px 20px 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 20px;
+            background: var(--card-bg);
+            border-radius: 100% 100% 0 0;
+        }
+
+        .form-group {
+            padding: 20px 24px;
+            position: relative;
+        }
+
+        .form-group:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #5f6368;
+            margin-bottom: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            font-size: 16px;
+            border: 1px solid #dadce0;
+            border-radius: 8px;
+            background-color: white;
+            color: var(--text-color);
+            transition: all 0.2s ease;
+            appearance: none;
+            font-family: 'Noto Sans TC', sans-serif;
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+        }
+
+        input[readonly] {
+            background-color: #f1f3f4;
+        }
+
+        .btn-submit {
+            display: block;
+            width: calc(100% - 48px);
+            margin: 24px auto;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+            text-align: center;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, var(--primary-light), var(--primary-color));
+            box-shadow: 0 6px 16px rgba(26, 115, 232, 0.5);
+        }
+
+        .btn-submit:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 8px rgba(26, 115, 232, 0.4);
+        }
+
+        .btn-ripple {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 1;
+            transition: all 0.6s ease-out;
+        }
+
+        .btn-submit:active .btn-ripple {
+            transform: scale(4);
+            opacity: 0;
+        }
+
+        .message {
+            text-align: center;
+            padding: 0 24px 24px;
+            font-size: 14px;
+            color: #5f6368;
+            min-height: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .message.success {
+            color: #0f9d58;
+        }
+
+        .message.error {
+            color: #d93025;
+        }
+
+        @media (max-width: 480px) {
+            .app-card {
+                border-radius: 12px;
+            }
+            
+            .app-header {
+                padding: 24px 16px 40px;
+            }
+            
+            .app-header h1 {
+                font-size: 24px;
+            }
+            
+            .form-group {
+                padding: 16px 20px;
+            }
+            
+            .btn-submit {
+                width: calc(100% - 40px);
+                margin: 20px auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -45,6 +262,271 @@
         </div>
     </div>
     
-    <script src="script.js"></script>
+    <script>
+        // 全局變數
+        let desireData = [];
+        let elementData = {};
+        let pointsData = {};
+
+        // 初始化應用
+        document.addEventListener('DOMContentLoaded', function() {
+            // 獲取DOM元素
+            const desireSelect = document.getElementById('desire');
+            const elementSelect = document.getElementById('element');
+            const pointsInput = document.getElementById('points');
+            const submitBtn = document.getElementById('submitBtn');
+            const messageDiv = document.getElementById('message');
+            
+            // 載入慾望清單數據
+            fetchDesireList();
+            
+            // 事件監聽器
+            desireSelect.addEventListener('change', function() {
+                const selectedDesire = this.value;
+                updateElementOptions(selectedDesire);
+                pointsInput.value = '';
+            });
+            
+            elementSelect.addEventListener('change', function() {
+                const selectedDesire = desireSelect.value;
+                const selectedElement = this.value;
+                updatePoints(selectedDesire, selectedElement);
+            });
+            
+            submitBtn.addEventListener('click', function() {
+                const ripple = this.querySelector('.btn-ripple');
+                ripple.style.transform = 'scale(0)';
+                ripple.style.opacity = '1';
+                
+                setTimeout(() => {
+                    ripple.style.transform = 'scale(4)';
+                    ripple.style.opacity = '0';
+                }, 10);
+                
+                submitData();
+            });
+            
+            // 按鈕波紋效果
+            submitBtn.addEventListener('mousedown', function(e) {
+                const ripple = this.querySelector('.btn-ripple');
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                ripple.style.left = `${x}px`;
+                ripple.style.top = `${y}px`;
+            });
+        });
+
+        // 從Google Sheets獲取慾望清單
+        function fetchDesireList() {
+            // 在實際應用中，這裡會調用Google Apps Script Web App
+            const scriptURL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec?action=getDesireList';
+            
+            // 顯示加載訊息
+            showLoadingMessage();
+            
+            // 實際應用中取消註釋下面的代碼
+            /*
+            fetch(scriptURL)
+                .then(response => response.json())
+                .then(data => {
+                    processDesireData(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching desire list:', error);
+                    document.getElementById('message').textContent = '載入數據失敗，請重試';
+                    document.getElementById('message').className = 'message error';
+                });
+            */
+            
+            // 模擬數據加載延遲 (實際使用時可刪除此部分)
+            setTimeout(() => {
+                // 這裡將被實際API響應替換
+                const mockData = {
+                    desires: [
+                        {desire: "旅遊", elements: [{name: "國內旅遊", points: 5}, {name: "國外旅遊", points: 10}]},
+                        {desire: "美食", elements: [{name: "家常菜", points: 2}, {name: "餐廳", points: 5}, {name: "高級餐廳", points: 8}]},
+                        {desire: "娛樂", elements: [{name: "電影", points: 3}, {name: "音樂會", points: 6}, {name: "展覽", points: 4}]}
+                    ]
+                };
+                processDesireData(mockData);
+            }, 1000);
+        }
+
+        // 處理慾望數據
+        function processDesireData(data) {
+            const desireSelect = document.getElementById('desire');
+            
+            // 清空現有選項
+            desireSelect.innerHTML = '<option value="" disabled selected>請選擇慾望項目</option>';
+            
+            // 處理數據並填充下拉選單
+            desireData = data.desires.map(item => item.desire);
+            
+            // 填充慾望下拉選單
+            desireData.forEach(desire => {
+                const option = document.createElement('option');
+                option.value = desire;
+                option.textContent = desire;
+                desireSelect.appendChild(option);
+            });
+            
+            // 建立要素和點數映射
+            data.desires.forEach(item => {
+                elementData[item.desire] = item.elements.map(el => el.name);
+                
+                // 建立慾望+要素到點數的映射
+                item.elements.forEach(el => {
+                    const key = `${item.desire}-${el.name}`;
+                    pointsData[key] = el.points;
+                });
+            });
+            
+            hideLoadingMessage();
+        }
+
+        // 更新要素下拉選單
+        function updateElementOptions(selectedDesire) {
+            const elementSelect = document.getElementById('element');
+            
+            // 清空現有選項
+            elementSelect.innerHTML = '';
+            
+            if (!selectedDesire) {
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.disabled = true;
+                defaultOption.selected = true;
+                defaultOption.textContent = '請先選擇慾望項目';
+                elementSelect.appendChild(defaultOption);
+                return;
+            }
+            
+            // 添加預設選項
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.disabled = true;
+            defaultOption.selected = true;
+            defaultOption.textContent = '請選擇要素';
+            elementSelect.appendChild(defaultOption);
+            
+            // 填充要素選項
+            const elements = elementData[selectedDesire] || [];
+            elements.forEach(element => {
+                const option = document.createElement('option');
+                option.value = element;
+                option.textContent = element;
+                elementSelect.appendChild(option);
+            });
+        }
+
+        // 更新點數顯示
+        function updatePoints(desire, element) {
+            const pointsInput = document.getElementById('points');
+            const key = `${desire}-${element}`;
+            pointsInput.value = pointsData[key] || '';
+        }
+
+        // 提交數據
+        function submitData() {
+            const desire = document.getElementById('desire').value;
+            const element = document.getElementById('element').value;
+            const points = document.getElementById('points').value;
+            const messageDiv = document.getElementById('message');
+            
+            // 驗證
+            if (!desire || !element || !points) {
+                messageDiv.textContent = '請填寫所有欄位';
+                messageDiv.className = 'message error';
+                return;
+            }
+            
+            // 顯示加載訊息
+            messageDiv.textContent = '正在提交...';
+            messageDiv.className = 'message';
+            
+            // 準備提交的數據
+            const data = {
+                action: 'submitData',
+                desire: desire,
+                element: element,
+                points: points
+            };
+            
+            // 實際應用中的代碼 (取消註釋使用)
+            /*
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbz6atZtTDUSjYzQRTXScE6lOwE-98Aq8raK2VX7Yx2P-wdjFXO0c5DCqdtWVi_9_tPC/exec';
+            
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify(data),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showSuccessMessage();
+                    resetForm();
+                } else {
+                    showErrorMessage(result.message || '提交失敗');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting data:', error);
+                showErrorMessage('網路錯誤，請重試');
+            });
+            */
+            
+            // 模擬提交 (實際使用時可刪除此部分)
+            setTimeout(() => {
+                showSuccessMessage();
+                resetForm();
+            }, 1500);
+        }
+
+        // 重置表單
+        function resetForm() {
+            document.getElementById('desire').selectedIndex = 0;
+            document.getElementById('element').innerHTML = '<option value="" disabled selected>請先選擇慾望項目</option>';
+            document.getElementById('points').value = '';
+        }
+
+        // 顯示成功訊息
+        function showSuccessMessage() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = '提交成功！';
+            messageDiv.className = 'message success';
+            
+            // 3秒後清除訊息
+            setTimeout(() => {
+                messageDiv.textContent = '';
+                messageDiv.className = 'message';
+            }, 3000);
+        }
+
+        // 顯示錯誤訊息
+        function showErrorMessage(message) {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = message;
+            messageDiv.className = 'message error';
+        }
+
+        // 顯示加載訊息
+        function showLoadingMessage() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = '載入中...';
+            messageDiv.className = 'message';
+        }
+
+        // 隱藏加載訊息
+        function hideLoadingMessage() {
+            const messageDiv = document.getElementById('message');
+            messageDiv.textContent = '';
+            messageDiv.className = 'message';
+        }
+    </script>
 </body>
 </html>
